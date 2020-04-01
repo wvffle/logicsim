@@ -2,7 +2,8 @@ module.exports = {
   theme: {
     extend: {
       cursor: {
-        'grab': 'grab'
+        'grab': 'grab',
+        'grabbing': 'grabbing'
       }
     },
   },
