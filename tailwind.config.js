@@ -1,6 +1,10 @@
 module.exports = {
   theme: {
-    extend: {},
+    extend: {
+      cursor: {
+        'grab': 'grab'
+      }
+    },
   },
   variants: {},
   plugins: [],
