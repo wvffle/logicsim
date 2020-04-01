@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div class="h-screen" id="app">
     <circ-editor></circ-editor>
   </div>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="grid bg-gray-700 h-screen">
+  <div class="grid bg-gray-700 h-full">
     <div class="w-64 border-r border-gray-600 overflow-y-auto">
       <div class="border-b border-gray-900 bg-gray-800 text-gray-400 px-2 py-3 text-xs uppercase font-mono">
         inputs
