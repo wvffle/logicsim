@@ -70,7 +70,7 @@
       },
       createNode (type) {
         const node = document.createElement('div')
-        node.classList.add('pointer-events-none', 'border', 'border-gray-800', 'rounded', 'bg-gray-700', 'shadow')
+        node.classList.add('pointer-events-none', 'border', 'border-gray-800', 'rounded', 'bg-gray-700', 'shadow', 'node')
 
         const title = document.createElement('div')
         title.textContent = type.toUpperCase()
@@ -82,13 +82,11 @@
 
         node.appendChild(title)
 
-        const body = document.createElement('body')
-        body.classList.add('p-1')
-        node.appendChild(body)
+        const { default: Node } = require(`../spec/nodes/${type.toLowerCase()}`)
+        node.instance = new Node()
+        node.appendChild(node.instance.element)
 
-
-        // Create node with logic
-
+        // render inputs and outputs
 
         this.setDynamicNode(node)
 
@@ -97,13 +95,13 @@
       updateDynamicNodePosition (event) {
         if (this.dynamicNode === null) return
         const x = event.clientX - this.dynamicNodeBox.width / 2
-        const y = event.clientY - 8
+        const y = event.clientY - 16
 
         this.dynamicNode.style.left = `${x}px`
         this.dynamicNode.style.top = `${y}px`
       },
       createDragElement (event) {
-        this.createNode(event.target.textContent)
+        this.createNode(event.target.textContent.trim())
         this.updateDynamicNodePosition(event)
       },
 
@@ -112,10 +110,9 @@
 
         const node = this.dynamicNode
 
-
         const { epbox } = this
         const x = event.pageX - epbox.left - this.dynamicNodeBox.width / 2
-        const y = event.pageY - epbox.top - 8
+        const y = event.pageY - epbox.top - 16
 
         if (x * y < 0) {
           node.parentElement.removeChild(node)
@@ -156,4 +153,22 @@
 
 .edit-plane
   background url(/pattern.png)
+</style>
+<style lang="stylus">
+.node
+  .node-body
+    display grid
+    grid-template-columns repeat(2, 1fr)
+    grid-gap 1rem
+
+    > div > div
+      display flex
+      align-items center
+
+    .bullet
+      font-size 2.1rem
+      line-height 1rem
+      margin-top -2px
+      padding 0 2px
+
 </style>

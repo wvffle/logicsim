@@ -6,6 +6,8 @@
 
 <script>
 import CircEditor from './components/CircEditor.vue'
+// eslint-disable-next-line
+import linkStore from '@/spec/store/link'
 
 export default {
   name: 'App',
