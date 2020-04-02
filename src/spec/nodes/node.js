@@ -65,7 +65,6 @@ export default class Node extends EventEmitter {
     // Force an update chain
     input.on('update', () => {
       for (const output of this.outputs) {
-        console.log('[n]', input.value, output)
         output.emit('update')
       }
     })

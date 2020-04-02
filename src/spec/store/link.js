@@ -89,7 +89,6 @@ class LinkStore extends EventEmitter {
 
     const output = this.linking
     output.on('update', () => {
-      console.log('[l]', output.value, input)
       input.emit('update')
 
       const color = output.value === 1
@@ -108,6 +107,9 @@ class LinkStore extends EventEmitter {
     input.line = output.line
     output.lines.add(output.line)
     output.line = null
+
+    input.node.updatePosition()
+    output.node.updatePosition()
 
     this.linking = null
   }

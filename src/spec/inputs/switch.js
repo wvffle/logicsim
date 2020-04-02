@@ -7,7 +7,6 @@ export default class CheckboxInput extends Input {
     element.checked = false
 
     element.addEventListener('change', () => {
-      console.log('[c]', this.value, this)
       this.emit('update')
     })
 
