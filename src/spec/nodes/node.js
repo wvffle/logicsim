@@ -87,8 +87,4 @@ export default class Node extends EventEmitter {
     this.inputs.delete(input)
     input.element.remove()
   }
-
-  get value () {
-    return 0
-  }
 }
