@@ -6,6 +6,8 @@ export default class Output extends EventEmitter {
 
     this.node = node
     this.name = name
+    this.lines = new Set()
+    this.line = null
 
     Object.defineProperty(this, 'value', {
       get () {

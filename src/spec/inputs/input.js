@@ -7,6 +7,7 @@ export default class Input extends EventEmitter {
 
     this.node = node
     this.name = name
+    this.line = null
     this.createElement()
   }
 

@@ -1,5 +1,8 @@
 import { EventEmitter } from 'events'
 
+const COLOR_ON = '#0af'
+const COLOR_OFF = '#718096'
+
 window.addEventListener('mousedown', (event) => {
   const { target } = event
   const { parentElement: parent } = target
@@ -27,6 +30,17 @@ window.addEventListener('mouseup', (event) => {
   linkStore.abortLinking()
 })
 
+window.addEventListener('mousemove', (event) => {
+  if (!linkStore.isLinking()) return
+  const output = linkStore.linking
+  const { offsetBox } = output.node
+
+  output.line.attr({
+    x2: event.pageX - offsetBox.left,
+    y2: event.pageY - offsetBox.top,
+  })
+})
+
 class LinkStore extends EventEmitter {
   constructor () {
     super()
@@ -37,12 +51,30 @@ class LinkStore extends EventEmitter {
   }
 
   startLinking (output) {
+    const box = output.element.getBoundingClientRect()
+    const offsetBox = output.node.offsetBox
+
+    const x = box.left - offsetBox.left
+    const y = box.top - offsetBox.top
+
+    const color = output.value === 1
+      ? COLOR_ON
+      : COLOR_OFF
+
+    output.line = output.node.canvas
+      .line(x, y, x, y)
+      .stroke({ width: 1, color })
+
     this.linking = output
     this.store.set(output, new Set())
   }
 
   abortLinking () {
-    this.linking = null
+    if (this.linking !== null) {
+      this.linking.line.remove()
+      this.linking.line = null
+      this.linking = null
+    }
   }
 
   link (input) {
@@ -59,9 +91,25 @@ class LinkStore extends EventEmitter {
     output.on('update', () => {
       console.log('[l]', output.value, input)
       input.emit('update')
+
+      const color = output.value === 1
+        ? COLOR_ON
+        : COLOR_OFF
+
+      output.lines.forEach((line) => {
+        line.attr({
+          stroke: color
+        })
+      })
     })
 
     input.emit('update')
+
+    input.line = output.line
+    output.lines.add(output.line)
+    output.line = null
+
+    this.linking = null
   }
 
   getOutput (input) {

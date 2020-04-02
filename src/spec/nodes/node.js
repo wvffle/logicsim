@@ -3,9 +3,12 @@ import Input from '../inputs/input'
 import Output from '../output'
 
 export default class Node extends EventEmitter {
-  constructor () {
+  constructor (parent, canvas, offsetBox) {
     super()
 
+    this.parent = parent
+    this.canvas = canvas
+    this.offsetBox = offsetBox
     this.inputs = new Set()
     this.outputs = new Set()
 
@@ -22,7 +25,33 @@ export default class Node extends EventEmitter {
   }
 
   create () {
+    // noop
+  }
 
+  updatePosition () {
+    // const box = this.parent.getBoundingClientRect()
+    this.inputs.forEach((input) => {
+      const { line } = input
+
+      if (!line) return
+
+      const box = input.element.getBoundingClientRect()
+      line.attr({
+        x2: box.x - this.offsetBox.x,
+        y2: box.y - this.offsetBox.y + 9
+      })
+    })
+
+    this.outputs.forEach((output) => {
+      const box = output.element.getBoundingClientRect()
+
+      output.lines.forEach(line => {
+        line.attr({
+          x1: box.x - this.offsetBox.x + box.width,
+          y1: box.y - this.offsetBox.y + 9
+        })
+      })
+    })
   }
 
   addInput (name, Type = Input) {

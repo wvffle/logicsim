@@ -13,17 +13,20 @@
         </div>
       </div>
     </div>
-    <div ref="ep" class="edit-plane overflow-scroll relative"></div>
+    <div ref="ep" class="edit-plane overflow-scroll relative">
+    </div>
     <div ref="dnc" class="dynamic-node-container fixed t-0 l-0 w-full h-full pointer-events-none z-30">
     </div>
   </div>
 </template>
 
 <script>
+  import { SVG } from '@svgdotjs/svg.js'
   export default {
     name: 'CircEditor',
     data () {
       return {
+        canvas: null,
         epbox: null,
         dynamicNode: null,
         dynamicNodeBox: null,
@@ -78,12 +81,13 @@
         title.addEventListener('mousedown', event => {
           this.setDynamicNode(node)
           this.updateDynamicNodePosition(event)
+          node.instance.updatePosition(event)
         })
 
         node.appendChild(title)
 
         const { default: Node } = require(`../spec/nodes/${type.toLowerCase()}`)
-        node.instance = new Node()
+        node.instance = new Node(node, this.canvas, this.epbox)
         node.appendChild(node.instance.element)
 
         // render inputs and outputs
@@ -99,6 +103,8 @@
 
         this.dynamicNode.style.left = `${x}px`
         this.dynamicNode.style.top = `${y}px`
+
+        return { x, y }
       },
       createDragElement (event) {
         this.createNode(event.target.textContent.trim())
@@ -139,7 +145,14 @@
     mounted () {
       document.addEventListener('mouseup', this.placeDynamicNode)
       document.addEventListener('resize', this.updateEPBox)
-      window.addEventListener('mousemove', this.updateDynamicNodePosition)
+      window.addEventListener('mousemove', (event) => {
+        this.updateDynamicNodePosition(event)
+        if (this.dynamicNode) {
+          this.dynamicNode.instance.updatePosition(event)
+        }
+      })
+
+      this.canvas = SVG().addTo('.edit-plane').size('100%', '100%')
 
       this.updateEPBox()
     }
