@@ -3,7 +3,7 @@ import linkStore from "@/spec/store/link";
 
 export default class And extends Node {
   create () {
-    this.name = 'AND'
+    this.name = 'NAND'
 
     this.addInput('value')
     this.on('link', (input) => {

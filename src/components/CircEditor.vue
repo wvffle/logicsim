@@ -1,8 +1,5 @@
 <template>
   <div class="grid bg-gray-700 h-full select-none">
-    <div class="py-4 px-6 bg-gray-800 border-b border-gray-900 col-span-2 flex justify-center text-gray-600 relative z-40">
-      circsim
-    </div>
     <div class="w-64 border-r border-gray-900 overflow-y-auto overflow-x-hidden">
       <div v-for="(items, category) in panel" :key="category">
         <div class="border-b border-gray-900 bg-gray-800 text-gray-400 px-2 py-3 text-xs uppercase font-mono">
@@ -161,7 +158,6 @@
 
 <style scoped lang="stylus">
 .grid
-  grid-template-rows auto 1fr
   grid-template-columns auto 1fr
 
 .edit-plane

@@ -2,11 +2,12 @@ import { EventEmitter } from 'events'
 import linkStore from '@/spec/store/link'
 
 export default class Input extends EventEmitter {
-  constructor(node, name) {
+  constructor(node, name, data) {
     super()
 
     this.node = node
     this.name = name
+    this.data = data
     this.line = null
     this.createElement()
   }

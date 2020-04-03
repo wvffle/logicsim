@@ -54,8 +54,8 @@ export default class Node extends EventEmitter {
     })
   }
 
-  addInput (name, Type = Input) {
-    const input = new Type(this, name)
+  addInput (name, Type = Input, data) {
+    const input = new Type(this, name, data)
     this.inputs.add(input)
 
     input.on('link', (output) => {
