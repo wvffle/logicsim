@@ -1,5 +1,5 @@
 {
-  "name": "circsim",
+  "name": "logicsim",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -41,5 +41,8 @@
   "browserslist": [
     "> 1%",
     "last 2 versions"
-  ]
+  ],
+  "main": "index.js",
+  "author": "Kasper Seweryn <github@wvffle.net>",
+  "license": "MIT"
 }
